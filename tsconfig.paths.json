@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "~*": ["./*"],
+      "~hooks*": ["./hooks/*"],
+      "~models*": ["./models*"],
+      "~redux-store*": ["./redux-store/*"],
+      "~routes*": ["./routes/*"],
+      "~services*": ["./services/*"],
+      "~utils": ["./utils"],
+      "~ui*": ["./ui/*"],
+      "~assets*": ["./ui/assets/*"],
+      "~atoms*": ["./ui/atoms/*"],
+      "~molecules*": ["./ui/molecules/*"],
+      "~organisms*": ["./ui/organisms/*"],
+      "~pages*": ["./ui/pages/*"],
+      "~theme*": ["./ui/themes/*"],
+      "~templates*": ["./ui/templates/*"],
+      "~config*": ["./config/*"]
+    }
+  }
+}

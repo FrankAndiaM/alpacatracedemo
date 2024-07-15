@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render AudioRecorder should render 1`] = `
+<div>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-12 MuiGrid-grid-lg-12 MuiGrid-grid-xl-12"
+      style="flex-direction: column; display: flex; align-items: center;"
+    >
+      <span
+        aria-hidden="true"
+        class="material-icons MuiIcon-root makeStyles-microphone-5 makeStyles-microphoneDisabled-6 MuiIcon-fontSizeLarge"
+      >
+        mic
+      </span>
+      <p
+        class="MuiTypography-root MuiTypography-body1"
+      >
+        00:00:00
+      </p>
+    </div>
+    <div
+      class="MuiGrid-root makeStyles-contentButton-1 MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-12 MuiGrid-grid-md-12 MuiGrid-grid-lg-12 MuiGrid-grid-xl-12"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-button-2 makeStyles-buttonDefault-3 MuiButton-containedSizeLarge MuiButton-sizeLarge"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          <span
+            class="MuiButton-startIcon MuiButton-iconSizeLarge"
+          >
+            <span
+              aria-hidden="true"
+              class="material-icons MuiIcon-root"
+            >
+              fiber_manual_record_icon
+            </span>
+          </span>
+          <p
+            class="MuiTypography-root MuiTypography-body1"
+          >
+            Comenzar a Grabar
+          </p>
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;

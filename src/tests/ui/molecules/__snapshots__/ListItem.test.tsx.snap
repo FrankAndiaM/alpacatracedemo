@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render ListItem should render 1`] = `
+<div>
+  <div
+    style="font-size: 2em; background: rgb(33, 64, 54);"
+  >
+    <a
+      aria-disabled="false"
+      class="MuiButtonBase-root MuiListItem-root makeStyles-ItemOfListHover-4 MuiListItem-gutters MuiListItem-button"
+      href="/mock-path"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="MuiListItemIcon-root"
+      >
+        <span
+          aria-hidden="true"
+          class="material-icons MuiIcon-root"
+          style="color: rgb(138, 184, 51);"
+        >
+          mock-icon
+           
+        </span>
+      </div>
+      <div
+        class="MuiListItemText-root"
+      >
+        <span
+          class="MuiTypography-root MuiListItemText-primary MuiTypography-body1 MuiTypography-displayBlock"
+        >
+          mock-text
+        </span>
+      </div>
+      <span
+        class="MuiTouchRipple-root"
+      />
+    </a>
+  </div>
+</div>
+`;

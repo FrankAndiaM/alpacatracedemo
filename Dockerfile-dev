@@ -1,0 +1,9 @@
+FROM node:16.15.1
+
+WORKDIR /var/front
+
+COPY . .
+EXPOSE 3000
+
+RUN chmod 775 /var/front/dev-front.sh
+CMD [ "sh","/var/front/dev-front.sh" ]

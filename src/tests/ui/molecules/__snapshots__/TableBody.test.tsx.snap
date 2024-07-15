@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Render TableBody should render 1`] = `
+<div>
+  <table>
+    <tbody
+      class="MuiTableBody-root"
+    >
+      <tr
+        class="MuiTableRow-root"
+      >
+        <td
+          class="MuiTableCell-root MuiTableCell-body makeStyles-textNoItems-2 MuiTableCell-alignCenter"
+          colspan="0"
+        >
+          No se encontraron resultados.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

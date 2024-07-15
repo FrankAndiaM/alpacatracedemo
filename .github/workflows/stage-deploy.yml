@@ -1,0 +1,119 @@
+name: Deploy on Stage using Tags
+
+on:
+  push:
+    tags:
+      - v*stage
+
+jobs:
+  # Workflow de trabajo
+  stage-deploy:
+    # Entorno de servidor para el workflow
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.15.1]
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+    # Pasos a ejecutar del workflow
+    steps:
+      - name: Set release version
+        id: set-release-version
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Slack Notify
+        id: notify
+        uses: rtCamp/action-slack-notify@v2.2.0
+        env:
+          SLACK_CHANNEL: testing-ci-cd
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_TITLE: 'deploy _ID PANEL FRONT_ to _STAGE_ environment'
+          SLACK_MESSAGE: 'Version: ${{ env.RELEASE_VERSION }} :rocket:'
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Starting message
+        id: starting-message
+        uses: act10ns/slack@v1
+        with:
+          status: ':roller_coaster: starting'
+          channel: 'testing-ci-cd'
+        if: always()
+
+      # Obtener el código
+      - uses: actions/checkout@v2
+        id: set-node-version
+      - name: Setup node ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Se cargan los submodulos
+      - name: Clone submodule Theme
+        id: clone-submodule-theme
+        uses: actions/checkout@v2
+        with:
+          repository: Agros-Dev-Team/material-themes
+          path: src/ui/themes
+          ssh-key: ${{ secrets.SSH_KEY_SUBMODULES }}
+          persist-credentials: true
+
+      - name: Checkout submodules
+        id: checkout-submodules
+        run: |
+          git submodule init
+          git submodule update
+
+      # Configurar AWS
+      - name: Configurar credenciales AWS
+        id: configure-aws-credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Config environments with S3
+        id: config-environments-vars
+        env:
+          BUCKET_ENV: ${{ secrets.AWS_BUCKET_ENV }}
+        run: |
+          aws s3 cp s3://$BUCKET_ENV/.env.stage .env
+
+      # Comando de construcción de imagen
+      - name: Construir los archivos estáticos
+        id: build-front
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
+        run: |
+          npm install --force
+          npm run build
+
+      # Comando de deploy a S3
+      - name: Actualizar S3
+        id: update-bucket
+        env:
+          BUCKET: ${{ secrets.AWS_BUCKET }}
+        run: |
+          cd build
+          aws s3 sync . s3://$BUCKET/stage
+
+      # Comando de actualización de CloudFront
+      - name: Actualizar CloudFront
+        id: update-cloud-front
+        env:
+          DISTRIBUTION_ID: ${{ secrets.AWS_DISTRIBUTION_ID }}
+        run: |
+          aws cloudfront create-invalidation \
+          --distribution-id $DISTRIBUTION_ID \
+          --paths "/index.html"
+
+      - name: Actions messages
+        id: actions-messages
+        uses: act10ns/slack@v1
+        with:
+          status: ':rocket: ${{ job.status }}'
+          steps: ${{ toJson(steps) }}
+          channel: 'testing-ci-cd'
+        if: always()
